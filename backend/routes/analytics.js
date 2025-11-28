@@ -1,7 +1,7 @@
-const express = require("express");
-const Response = require("../models/Response");
-const Form = require("../models/Form");
-const { authMiddleware } = require("../middleware/auth");
+import express from "express";
+import Response from "../models/Response.js";
+import Form from "../models/Form.js";
+import { authMiddleware } from "../middleware/auth";
 const router = express.Router();
 
 router.get("/:formId", authMiddleware, async (req, res) => {
@@ -64,3 +64,5 @@ router.get("/:formId", authMiddleware, async (req, res) => {
         res.status(500).json({ message: "Failed to fetch analytics" });
     }
 });
+
+export default router;
