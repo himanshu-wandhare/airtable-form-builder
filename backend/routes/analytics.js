@@ -1,7 +1,7 @@
 import express from "express";
 import Response from "../models/Response.js";
 import Form from "../models/Form.js";
-import { authMiddleware } from "../middleware/auth";
+import { authMiddleware } from "../middleware/auth.js";
 const router = express.Router();
 
 router.get("/:formId", authMiddleware, async (req, res) => {
