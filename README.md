@@ -6,6 +6,28 @@ A full-stack MERN application that allows users to create custom forms connected
 ![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)
 ![MongoDB](https://img.shields.io/badge/mongodb-%3E%3D6.0-green.svg)
 
+## Screenshots
+
+#### Login Page
+
+![alt text](screenshots/image.png)
+
+#### Aritable Authentication
+
+![alt text](screenshots/image-1.png)
+
+#### Dashboard
+
+![alt text](screenshots/image-2.png)
+
+#### Creat Form Page
+
+![alt text](screenshots/image-3.png)
+
+### Responses Page
+
+![alt text](screenshots/image-4.png)
+
 ## ✨ Features
 
 ### Core Features
