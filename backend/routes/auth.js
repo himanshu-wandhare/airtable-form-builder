@@ -30,10 +30,15 @@ router.get("/airtable", (req, res) => {
     const codeVerifier = generateCodeVerifier();
     const codeChallenge = generateCodeChallenge(codeVerifier);
 
-    res.cookie("oauth_state", state, { httpOnly: true, sameSite: "lax" });
+    res.cookie("oauth_state", state, {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+    });
     res.cookie("code_verifier", codeVerifier, {
         httpOnly: true,
-        sameSite: "lax",
+        sameSite: "none",
+        secure: true,
     });
 
     const authUrl =
