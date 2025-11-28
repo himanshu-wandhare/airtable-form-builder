@@ -1,7 +1,6 @@
 import { useState } from "react";
 import QuestionField from "./QuestionField";
 
-// Conditional logic function (same as backend)
 function shouldShowQuestion(rules, answersSoFar) {
     if (!rules || !rules.conditions || rules.conditions.length === 0) {
         return true;

@@ -95,7 +95,6 @@ export default function CreateForm() {
                 </div>
             </div>
 
-            {/* Step 1: Form Title */}
             {step === 1 && (
                 <div className="bg-white rounded-lg shadow p-6">
                     <h2 className="text-xl font-semibold mb-4">Form Details</h2>
@@ -121,7 +120,6 @@ export default function CreateForm() {
                 </div>
             )}
 
-            {/* Step 2: Select Base */}
             {step === 2 && (
                 <div className="bg-white rounded-lg shadow p-6">
                     <h2 className="text-xl font-semibold mb-4">
@@ -149,7 +147,6 @@ export default function CreateForm() {
                 </div>
             )}
 
-            {/* Step 3: Select Table */}
             {step === 3 && (
                 <div className="bg-white rounded-lg shadow p-6">
                     <h2 className="text-xl font-semibold mb-4">Select Table</h2>
@@ -176,7 +173,6 @@ export default function CreateForm() {
                 </div>
             )}
 
-            {/* Step 4: Configure Fields */}
             {step === 4 && (
                 <div className="bg-white rounded-lg shadow p-6">
                     <h2 className="text-xl font-semibold mb-4">

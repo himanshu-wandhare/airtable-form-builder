@@ -5,7 +5,6 @@ export default function FormCard({ form, onDelete }) {
 
     const copyShareLink = () => {
         navigator.clipboard.writeText(shareUrl);
-        // You could add a toast notification here
         alert("Share link copied to clipboard!");
     };
 

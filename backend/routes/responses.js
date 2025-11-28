@@ -7,7 +7,6 @@ import { authMiddleware } from "../middleware/auth.js";
 
 const router = express.Router();
 
-// Submit form response (PUBLIC - no auth required)
 router.post("/:formId", async (req, res) => {
     try {
         const form = await Form.findById(req.params.formId).populate("owner");
@@ -40,7 +39,6 @@ router.post("/:formId", async (req, res) => {
                 });
             }
 
-            // Validate single select options
             if (
                 shouldShow &&
                 question.type === "singleSelect" &&
@@ -53,7 +51,6 @@ router.post("/:formId", async (req, res) => {
                 }
             }
 
-            // Validate multiple selects options
             if (
                 shouldShow &&
                 question.type === "multipleSelects" &&
@@ -72,7 +69,6 @@ router.post("/:formId", async (req, res) => {
             }
         }
 
-        // Map answers to Airtable field IDs
         const airtableFields = {};
         for (const question of form.questions) {
             if (answers[question.questionKey] !== undefined) {
@@ -81,7 +77,6 @@ router.post("/:formId", async (req, res) => {
             }
         }
 
-        // Create record in Airtable
         const airtable = new AirtableService(form.owner.accessToken);
         const airtableRecord = await airtable.createRecord(
             form.airtableBaseId,
@@ -89,7 +84,6 @@ router.post("/:formId", async (req, res) => {
             airtableFields
         );
 
-        // Save response to database
         const response = new Response({
             formId: form._id,
             airtableRecordId: airtableRecord.id,
@@ -110,10 +104,8 @@ router.post("/:formId", async (req, res) => {
     }
 });
 
-// Get all responses for a form (PROTECTED)
 router.get("/:formId", authMiddleware, async (req, res) => {
     try {
-        // Verify user owns the form
         const form = await Form.findById(req.params.formId);
         if (!form) {
             return res.status(404).json({ message: "Form not found" });
@@ -134,7 +126,6 @@ router.get("/:formId", authMiddleware, async (req, res) => {
     }
 });
 
-// Get single response (PROTECTED)
 router.get("/single/:responseId", authMiddleware, async (req, res) => {
     try {
         const response = await Response.findById(req.params.responseId);
@@ -142,7 +133,6 @@ router.get("/single/:responseId", authMiddleware, async (req, res) => {
             return res.status(404).json({ message: "Response not found" });
         }
 
-        // Verify user owns the form
         const form = await Form.findById(response.formId);
         if (!form || form.owner.toString() !== req.user._id.toString()) {
             return res.status(403).json({ message: "Unauthorized" });
@@ -155,7 +145,6 @@ router.get("/single/:responseId", authMiddleware, async (req, res) => {
     }
 });
 
-// Delete response (PROTECTED)
 router.delete("/single/:responseId", authMiddleware, async (req, res) => {
     try {
         const response = await Response.findById(req.params.responseId);
@@ -163,13 +152,11 @@ router.delete("/single/:responseId", authMiddleware, async (req, res) => {
             return res.status(404).json({ message: "Response not found" });
         }
 
-        // Verify user owns the form
         const form = await Form.findById(response.formId).populate("owner");
         if (!form || form.owner._id.toString() !== req.user._id.toString()) {
             return res.status(403).json({ message: "Unauthorized" });
         }
 
-        // Delete from Airtable
         const airtable = new AirtableService(form.owner.accessToken);
         try {
             await airtable.deleteRecord(
@@ -179,10 +166,8 @@ router.delete("/single/:responseId", authMiddleware, async (req, res) => {
             );
         } catch (error) {
             console.error("Error deleting from Airtable:", error);
-            // Continue even if Airtable deletion fails
         }
 
-        // Delete from database
         await Response.findByIdAndDelete(req.params.responseId);
 
         res.json({ message: "Response deleted successfully" });
@@ -192,7 +177,6 @@ router.delete("/single/:responseId", authMiddleware, async (req, res) => {
     }
 });
 
-// Get response statistics (PROTECTED)
 router.get("/:formId/stats", authMiddleware, async (req, res) => {
     try {
         const form = await Form.findById(req.params.formId);
@@ -209,7 +193,6 @@ router.get("/:formId/stats", authMiddleware, async (req, res) => {
             byDate: {},
         };
 
-        // Group responses by date
         responses.forEach((response) => {
             const date = new Date(response.createdAt)
                 .toISOString()

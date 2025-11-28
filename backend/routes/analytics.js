@@ -4,7 +4,6 @@ const Form = require("../models/Form");
 const { authMiddleware } = require("../middleware/auth");
 const router = express.Router();
 
-// Get form analytics
 router.get("/:formId", authMiddleware, async (req, res) => {
     try {
         const form = await Form.findById(req.params.formId);
@@ -14,7 +13,6 @@ router.get("/:formId", authMiddleware, async (req, res) => {
 
         const responses = await Response.find({ formId: req.params.formId });
 
-        // Calculate question-level analytics
         const questionAnalytics = {};
 
         form.questions.forEach((question) => {
@@ -49,7 +47,6 @@ router.get("/:formId", authMiddleware, async (req, res) => {
             });
         });
 
-        // Convert Sets to arrays for JSON serialization
         Object.keys(questionAnalytics).forEach((key) => {
             questionAnalytics[key].uniqueAnswers = Array.from(
                 questionAnalytics[key].uniqueAnswers

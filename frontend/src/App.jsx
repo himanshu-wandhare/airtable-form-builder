@@ -25,10 +25,8 @@ export default function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/auth/callback" element={<AuthCallback />} />
 
-                    {/* Public form filling */}
                     <Route path="/form/:formId" element={<FillForm />} />
 
-                    {/* Protected routes */}
                     <Route
                         path="/"
                         element={

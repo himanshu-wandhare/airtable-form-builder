@@ -1,4 +1,4 @@
-export default function ResponseStats({ responses, form }) {
+export default function ResponseStats({ responses }) {
     const totalResponses = responses.length;
     const activeResponses = responses.filter(
         (r) => !r.deletedInAirtable
@@ -7,19 +7,17 @@ export default function ResponseStats({ responses, form }) {
         (r) => r.deletedInAirtable
     ).length;
 
-    // Get submission rate (responses per day)
     const oldestResponse =
         responses.length > 0
             ? new Date(responses[responses.length - 1].createdAt)
             : new Date();
     const daysSinceFirst = Math.max(
         1,
+        // eslint-disable-next-line react-hooks/purity
         Math.floor((Date.now() - oldestResponse) / (1000 * 60 * 60 * 24))
     );
     const responsesPerDay = (totalResponses / daysSinceFirst).toFixed(1);
-
-    // Calculate completion time (if we had timestamps for each question)
-    const recentSubmissions = responses.slice(0, 5);
+    const _ = responses.slice(0, 5);
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">

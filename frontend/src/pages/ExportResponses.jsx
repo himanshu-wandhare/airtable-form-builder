@@ -45,13 +45,11 @@ export default function ExportResponses() {
             return;
         }
 
-        // Get all unique question keys
         const allKeys = new Set();
         responses.forEach((response) => {
             Object.keys(response.answers).forEach((key) => allKeys.add(key));
         });
 
-        // Create CSV header
         const headers = [
             "Response ID",
             "Created At",
@@ -59,7 +57,6 @@ export default function ExportResponses() {
             ...Array.from(allKeys),
         ];
 
-        // Create CSV rows
         const rows = responses.map((response) => {
             const row = [
                 response._id,
@@ -81,7 +78,6 @@ export default function ExportResponses() {
             return row;
         });
 
-        // Combine into CSV string
         const csvContent = [
             headers.join(","),
             ...rows.map((row) =>
@@ -91,7 +87,6 @@ export default function ExportResponses() {
             ),
         ].join("\n");
 
-        // Download
         const blob = new Blob([csvContent], { type: "text/csv" });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
